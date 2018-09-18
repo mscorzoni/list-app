@@ -10,7 +10,8 @@ class ListsContainer extends Component {
         this.state = {
             lists: []
         }
-        this.addNewList = this.addNewList.bind(this)
+        this.addNewList = this.addNewList.bind(this);
+        this.removeList = this.removeList.bind(this)
     }
     componentDidMount() {
         axios.get('api/v1/lists.json')
@@ -33,7 +34,18 @@ class ListsContainer extends Component {
       .catch(error => {
           console.log(error)
       })
-  }
+    }
+
+    removeList(id) {
+      axios.delete( '/api/v1/lists/' + id )
+      .then(response => {
+          const lists = this.state.lists.filter(
+              list => list.id !== id
+          )
+          this.setState({lists})
+      })
+      .catch(error => console.log(error))
+    }
     render() {
         return (
             <div className="lists-container">
@@ -41,7 +53,7 @@ class ListsContainer extends Component {
                 {this.state.lists.map( 
                   list => {
                     return (
-                      <List list={list} key={list.id} /> 
+                      <List list={list} key={list.id} onRemoveList={this.removeList} /> 
                   )}
                   )}
             </div>

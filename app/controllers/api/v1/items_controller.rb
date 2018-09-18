@@ -37,6 +37,10 @@ module Api::V1
     # DELETE /items/1
     def destroy
       @item.destroy
+      if @list.destroy
+        head :no_content, status :ok
+      else
+        
     end
 
     private
