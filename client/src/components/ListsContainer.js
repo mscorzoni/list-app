@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import List from './List'
+
+
 class ListsContainer extends Component {
     constructor(props){
         super(props)
@@ -8,7 +11,7 @@ class ListsContainer extends Component {
         }
     }
     componentDidMount() {
-        axios.get('http://localhost:3001/api/v1/lists.json', {
+        axios.get('api/v1/lists.json', {
           headers: {
             'Access-Control-Allow-Origin': '*',
           },
@@ -23,8 +26,13 @@ class ListsContainer extends Component {
     }
     render() {
         return (
-            <div className="Lists-container">
-                Lists
+            <div className="lists-container">
+                {this.state.lists.map( 
+                  list => {
+                    return (
+                      <List list={list} key={list.id} /> 
+                  )}
+                  )}
             </div>
         )
     }
